@@ -1,2 +1,2 @@
-# TicTacToe
-TicTacToe implementation in Python, using pygame
+# Tic Tac Toe
+Tic Tac Toe implementation in Python, using pygame
