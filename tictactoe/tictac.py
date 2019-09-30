@@ -61,6 +61,8 @@ class Board:
                 (DIS_X-100, DIS_Y-100), (0+100, DIS_Y-100), 5)
 
     def display_squares(self):
+        '''Loops through board and calls display() method
+        on all the individual squares'''
         for i in range(len(self.board)):
             for square in self.board[i]:
                 square.display()
@@ -72,6 +74,9 @@ class Board:
                 square.state = ' '
 
     def three_row(self, square1, square2, square3):
+        '''Given 3 squares returns if they share the
+        same state: 'X' or 'O'
+        '''
         if square1.state == square2.state == square3.state and \
                 square1.state != ' ':
             return True
