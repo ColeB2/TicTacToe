@@ -1,5 +1,5 @@
 '''
-tictacUI.py - Tic Tac Toe OOP
+tictac.py - Tic Tac Toe OOP impementation
 using pygame to display
 '''
 
