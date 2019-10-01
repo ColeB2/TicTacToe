@@ -1,7 +1,7 @@
 '''
 tictac.py - Tic Tac Toe OOP implementation
 using pygame to display
-1st copy attempt
+Prototype
 '''
 
 import pygame
