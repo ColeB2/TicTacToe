@@ -1,7 +1,7 @@
 # Tic Tac Toe
 Tic Tac Toe implementation in Python, using pygame 1.9.3
 
-#Future TO DO:
+# Future TO DO:
 - Controls appear to have broken, fix at some point
 - Update the code, and refactor.
 
