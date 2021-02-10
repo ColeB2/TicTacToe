@@ -34,7 +34,7 @@ class Game:
 
 
     def handle_score_event(self, winner):
-        '''Handles a scoring event (A win for either side)''''
+        '''Handles a scoring event (A win for either side)'''
         if self.score[4] == False:
             if winner == 'X':
                 self.score[1] += 1
