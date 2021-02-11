@@ -34,7 +34,6 @@ class Board:
         self.rows_list = [self.board, self.diagonals, self.columns]
 
 
-
     def create_board(self):
         for i in range(self.height):
             row = []
@@ -100,7 +99,7 @@ class Board:
         for i in range(self.width):
             column = []
             for j in range(self.height):
-                column.append(self.board[i][j])
+                column.append(self.board[j][i])
             self.columns.append(column)
 
 
