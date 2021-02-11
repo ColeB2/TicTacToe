@@ -31,6 +31,7 @@ class Board:
         self._create_diagonal_rows()
         self.columns = []
         self._create_columns()
+        self.rows_list = [self.board, self.diagonals, self.columns]
 
 
 
@@ -54,7 +55,7 @@ class Board:
                 cell.state = None
 
 
-    def _check_row(self, row):
+    def _check_row(self, given_row):
         """
         Given a row, checks to see if the state of each cell in the row
         contains the same value. Does so by iterating through each cell in the
@@ -62,10 +63,15 @@ class Board:
         any cell in the row does not match the cell state of the first value in
         that row.
         """
-        row_value = row[0].state
+        row_value = given_row[0].state
         same_value = True
-        for cell in row:
+        if row_value == None:
+            return False
+        for cell in given_row:
             if row_value != cell.state:
+                same_value = False
+                break
+            elif row_value == None:
                 same_value = False
                 break
         return same_value
@@ -74,7 +80,6 @@ class Board:
     def _create_diagonal_rows(self):
         """Populates the list of both diagonals, and saves them for easier
         checking of each row."""
-
 
         """Top Left-Bottom Right diagonal"""
         diagonal_row = []
@@ -97,9 +102,6 @@ class Board:
             for j in range(self.height):
                 column.append(self.board[i][j])
             self.columns.append(column)
-
-
-
 
 
     def _cell_update(self, surface, *args):
@@ -135,6 +137,19 @@ if __name__ == '__main__':
     pygame.display.set_caption("Tic Tac Toe Board")
 
     B = Board(4, 4, 100, 100, 100, 100)
+    def check_win(Board):
+        rows = [Board.board, Board.diagonals, Board.columns]
+        res = False
+
+        if res == False:
+            for set in rows:
+                for row in set:
+                    res = Board._check_row(row)
+                    if res == True:
+                        return res
+
+
+
     run = True
     player_turn = "O"
     while run:
@@ -150,6 +165,8 @@ if __name__ == '__main__':
                     player_turn = 'X'
 
 
+
+        print(check_win(B))
 
         B.update(surface)
 
