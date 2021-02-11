@@ -1,4 +1,4 @@
-import pygame_text
+import pygame
 from pyVariables import *
 from board import Board
 """
@@ -18,6 +18,7 @@ class ClassicTicTacToe:
         self.rows = [self.board.board, self.board.diagonals, self.board.columns]
         self.players = ['X','O']
         self.player_turn = 0
+        self.turns_elapsed = 0
 
 
 
@@ -25,7 +26,9 @@ class ClassicTicTacToe:
         pass
 
     def handle_turn(self):
+        if event.type == pygame.MOUSEBUTTONUP:
         pass
+
 
 
 
@@ -49,19 +52,24 @@ class ClassicTicTacToe:
 
 
     def update(self, surface, *args):
-        self.board.update(self, surface, *args)
+        self.board.update(surface, *args)
 
 
 if __name__ == '__main__':
+    pygame.init()
+    surface = pygame.display.set_mode((600,600))
+    surface.fill((WHITE2))
+    pygame.display.set_caption("Tic Tac Toe Board")
+
+    C = ClassicTicTacToe()
+
     run = True
     player_turn = "O"
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            B.get_event(event, player_turn)
+            C.get_event(event, player_turn)
 
-
-
-
+        C.update(surface)
         pygame.display.update()
