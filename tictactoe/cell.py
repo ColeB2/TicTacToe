@@ -18,12 +18,12 @@ class Cell:
         self.clicked = False
         self.hovered = True
         self.hover_color = (LIGHT_GREEN)
-        self.player_symbol = None
         self.run_on_release = False
 
-    def __str__(self):
-        return f"Cell Rect: {self.rect} Cell State: {self.state}"
 
+
+    def __str__(self):
+        return f"Cell Rect: {self.rect} Cell State: {self.state} Function: {self.symbol}"
 
 
     """Drawing Functions"""
@@ -61,13 +61,6 @@ class Cell:
             int(self.rect[3]/3), O_THICKNESS)
 
 
-    """Cell State and State Functions"""
-    def change_state(self, player_symbol):
-        """Displays the cell on the board."""
-        if self.state == None:
-            self.state = player_symbol
-
-
     """Event Handler"""
     def get_event(self, event, *args):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -80,8 +73,7 @@ class Cell:
     def _handle_click(self, *args):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             self.clicked = True
-            if not self.run_on_release:
-                self.change_state(*args)
+            print(self.clicked)
 
 
     def _handle_release(self, *args):
@@ -102,9 +94,9 @@ class Cell:
         color = GRAY
         self._handle_hover()
 
-        if self.clicked and self.hover_color:
+        if self.clicked:
             color = self.hover_color
-        elif self.hovered and self.hover_color:
+        elif self.hovered:
             color = self.hover_color
 
 
@@ -125,37 +117,31 @@ if __name__ == '__main__':
     surface.fill((WHITE2))
     pygame.display.set_caption("Tic Tac Toe Cell")
 
-    def X():
-        return 'X'
-    def O():
-        return 'O'
 
 
 
-    cell = Cell(rect=(100,100,100,100), state=None)
+
+
+    cell1 = Cell(rect=(100,100,100,100), state=None)
     cell2 = Cell(rect=(200,100,100,100), state=None)
     cell3 = Cell(rect=(100,200,100,100), state=None)
     cell4 = Cell(rect=(200,200,100,100), state=None)
+    cells = [cell1, cell2, cell3, cell4]
     run = True
-    player_turn = "O"
+    player_turn = ['X','O']
+    turn = 0
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
-            cell.get_event(event, player_turn)
-            cell2.get_event(event, player_turn)
-            cell3.get_event(event, player_turn)
-            cell4.get_event(event, player_turn)
+            for cell in cells:
+                cell.get_event(event)
+                if cell.clicked == True and cell.state == None:
+                    turn +=1
+                    symbol = turn % 2
+                    cell.state = player_turn[symbol]
 
-            if event.type == pygame.MOUSEBUTTONUP:
-                if player_turn == 'X':
-                    player_turn = 'O'
-                else:
-                    player_turn = 'X'
-
-        cell.update(surface)
-        cell2.update(surface)
-        cell3.update(surface)
-        cell4.update(surface)
+        for CELL in cells:
+            CELL.update(surface)
         pygame.display.update()
