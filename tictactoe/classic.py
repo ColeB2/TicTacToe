@@ -19,15 +19,38 @@ class ClassicTicTacToe:
         self.players = ['X','O']
         self.player_turn = 0
         self.turns_elapsed = 0
+        self.cells_filled = 0
 
 
+    def handle_ruleset(self):
+        self.handle_turn()
+        self.win_state()
 
-    def main_loop(self):
-        pass
+
 
     def handle_turn(self):
-        if event.type == pygame.MOUSEBUTTONUP:
-        pass
+        if self.turns_elapsed % 2 == 0:
+            self.player_turn = 0
+        else:
+            self.player_turn = 1
+
+
+    def check_num_state_changes(self):
+        cells_filled = 0
+        for row in self.board:
+            for cell in row:
+                if cell.state:
+                    cells_filled += 1
+
+        self.cells_filled = cells_filled
+
+
+    def pass_player_symbol(self):
+        self.turns_elapsed += 1
+        return self.players[self.player_turn]
+
+
+
 
 
 
@@ -64,12 +87,14 @@ if __name__ == '__main__':
     C = ClassicTicTacToe()
 
     run = True
-    player_turn = "O"
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            C.get_event(event, player_turn)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                C.get_event(event, C.pass_player_symbol())
+            print(f"{C.turns_elapsed}")
+            print(f"{C.board.board[0][0]}")
 
         C.update(surface)
         pygame.display.update()

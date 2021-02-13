@@ -73,7 +73,6 @@ class Cell:
     def _handle_click(self, *args):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             self.clicked = True
-            print(self.clicked)
 
 
     def _handle_release(self, *args):
@@ -117,26 +116,29 @@ if __name__ == '__main__':
     surface.fill((WHITE2))
     pygame.display.set_caption("Tic Tac Toe Cell")
 
-
-
-
-
-
+    """Create the Cells"""
     cell1 = Cell(rect=(100,100,100,100), state=None)
     cell2 = Cell(rect=(200,100,100,100), state=None)
     cell3 = Cell(rect=(100,200,100,100), state=None)
     cell4 = Cell(rect=(200,200,100,100), state=None)
     cells = [cell1, cell2, cell3, cell4]
+
+    """More Pygame Loop"""
     run = True
     player_turn = ['X','O']
     turn = 0
+
+    """Main Loop"""
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
+
+            """Call get_event for all cells, --> Board method"""
             for cell in cells:
                 cell.get_event(event)
+                """Handle click function stuff"""
                 if cell.clicked == True and cell.state == None:
                     turn +=1
                     symbol = turn % 2

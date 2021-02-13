@@ -33,6 +33,10 @@ class Board:
         self._create_columns()
         self.rows_list = [self.board, self.diagonals, self.columns]
 
+        self.click_symbol = 'X'
+        self.turn = 0
+
+
 
     def create_board(self):
         for i in range(self.height):
@@ -42,7 +46,7 @@ class Board:
                                     self.y + (i*self.cell_height),
                                     self.cell_width,
                                     self.cell_height ),
-                                    state=None) )
+                                    state=None,) )
             self.board.append(row)
 
 
@@ -111,10 +115,17 @@ class Board:
 
 
     def _cell_get_event(self, event, *args):
-        """Calls get_event for each cell in the board"""
+        """
+        Calls get_event for each cell. Expanded to contain function of what
+        to do on cell click, and handle turn increment/ ie if a click if a legal
+        click on current board.
+        """
         for row in self.board:
             for cell in row:
                 cell.get_event(event, *args)
+                if cell.clicked == True and cell.state == None:
+                    self.turn += 1
+                    cell.state = self.click_symbol
 
 
     def get_event(self, event, *args):
@@ -125,6 +136,7 @@ class Board:
     def update(self, surface, *args):
         """Boards main update method"""
         self._cell_update(surface, *args)
+
 
 
 
@@ -150,22 +162,23 @@ if __name__ == '__main__':
 
 
     run = True
-    player_turn = "O"
+    player_turn = ['X','O']
+    turn = 0
+    win = False
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            B.get_event(event, player_turn)
+            B.get_event(event)
 
-            if event.type == pygame.MOUSEBUTTONUP:
-                if player_turn == 'X':
-                    player_turn = 'O'
-                else:
-                    player_turn = 'X'
+            B.click_symbol = player_turn[B.turn % 2]
 
 
 
-        print(check_win(B))
+
+        if check_win(B) == True and win == False:
+            print('WIN')
+            win = True
 
         B.update(surface)
 
