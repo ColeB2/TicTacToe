@@ -35,6 +35,7 @@ class Board:
 
         self.click_symbol = 'X'
         self.turn = 0
+        self.last_symbol_placed = ''
 
 
 
@@ -117,14 +118,15 @@ class Board:
     def _cell_get_event(self, event, *args):
         """
         Calls get_event for each cell. Expanded to contain function of what
-        to do on cell click, and handle turn increment/ ie if a click if a legal
-        click on current board.
+        to do on cell click ie, handles the turn increment/if a click is a legal
+        click on current board as well as which symbol was last placed.
         """
         for row in self.board:
             for cell in row:
                 cell.get_event(event, *args)
                 if cell.clicked == True and cell.state == None:
                     self.turn += 1
+                    self.last_symbol_placed = self.click_symbol
                     cell.state = self.click_symbol
 
 
