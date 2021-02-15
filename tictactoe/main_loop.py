@@ -1,35 +1,24 @@
 """
 main_loop.py - main pygame loop for tic tac toe program
+State machine ideas and planning taken from
+https://github.com/Mekire/pygame-mutiscene-template-with-movie
 """
-import pygame
-from pyVariables import *
-from classic import ClassicTicTacToe
 
 
 
-class MainLoop:
+class Main:
     def __init__(self):
-        self.GameSet = None
         self.run = True
-        self.player_turn = 'X'
-
-
-
 
 
     def event_loop(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.run = False
-            self.GameSet.get_event(event, self.player_turn)
+        """Main Event Loop processes events and passes them down to the state."""
+        for event in pg.event.get()
+        if event.type == pg.QUIT:
+            self.run = False
+
+        self.state.get_event(event)
 
     def main_loop(self):
-        while run:
-            self.GameSet.update(surface)
-            pygame.display.update()
-
-
-
-
-
-if __name__ == '__main__':
+        while self.run:
+            pass
