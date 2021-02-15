@@ -17,12 +17,15 @@ class ClassicTicTacToe:
 
         self.rows = [self.board.board, self.board.diagonals, self.board.columns]
         self.players = ['X','O']
+        self.last_player = ''
         self.winner = False
 
         self.x_score = 0
         self.o_score = 0
 
     def handle_ruleset(self):
+        """Method used to handle overall ruleset. Calls all the major rules of
+        the game."""
         self.handle_turn()
         self.win_state()
 
@@ -32,6 +35,13 @@ class ClassicTicTacToe:
         self.board.click_symbol = self.players[self.board.turn % 2]
 
 
+    def handle_scoring(self):
+        if self.board.last_symbol_placed == 'X':
+            self.x_score += 1
+        elif self.board.last_symbol_placed == 'O':
+            self.o_score += 1
+
+
 
     def win_state(self):
         """
@@ -39,11 +49,12 @@ class ClassicTicTacToe:
         the result of its findings, True if a row has 3 in a row, false otherwise.
         """
         result = False
-        if result == False:
+        if result == False and self.board.turn >=5:
             for set in self.rows:
                 for row in set:
                     result = self.board._check_row(row)
                     if result == True:
+                        self.handle_scoring()
                         return result
 
         return result
