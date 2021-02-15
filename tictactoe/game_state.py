@@ -15,9 +15,14 @@ class GameState:
 
 
 
+    def handle_ruleset(self):
+        self.handle_win_state()
+        self.GameSet.handle_turn()
 
-    def handle_win(self):
-        if self.GameSet.win_state == True:
+
+    def handle_win_state(self):
+        if self.GameSet.win_state() == True:
+            print("Handle Win State")
 
     def get_gameset(self):
         if self.ruleset == "ClassicTicTacToe":
@@ -39,7 +44,8 @@ class GameState:
 
         while self.run:
             self.event_loop()
-            self.GameSet.handle_ruleset()
+            # self.GameSet.handle_ruleset()
+            self.handle_ruleset()
             self.GameSet.update(surface)
             pygame.display.update()
 
