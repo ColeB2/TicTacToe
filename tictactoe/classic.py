@@ -19,6 +19,8 @@ class ClassicTicTacToe:
         self.players = ['X','O']
         self.winner = False
 
+        self.x_score = 0
+        self.o_score = 0
 
     def handle_ruleset(self):
         self.handle_turn()
