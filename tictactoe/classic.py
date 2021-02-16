@@ -13,9 +13,8 @@ class ClassicTicTacToe:
         tic tac toe.
     """
     def __init__(self):
-        x = DIS_X/2 - CLASSIC_BOARD_WIDTH/2
-        y = DIS_Y/2 - CLASSIC_BOARD_HEIGHT/2
-        self.board = Board(3, 3, x, y, CLASSIC_CELL_WIDTH, CLASSIC_CELL_HEIGHT)
+        self.board = Board(3, 3, CLASSIC_X, CLASSIC_Y,
+            CLASSIC_CELL_WIDTH, CLASSIC_CELL_HEIGHT)
 
         self.rows = [self.board.board, self.board.diagonals, self.board.columns]
         self.players = ['X','O']

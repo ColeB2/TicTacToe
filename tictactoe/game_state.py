@@ -42,7 +42,8 @@ class GameState:
         print(f"reset")
 
     def create_reset_button(self):
-        self.reset_button = Button((0,0,100,50), self.reset_function, text="Reset")
+        self.reset_button = Button((RESET_X,RESET_Y,RESET_WIDTH,RESET_HEIGHT),
+            self.reset_function, text="Reset")
 
 
     def handle_win_state(self):
