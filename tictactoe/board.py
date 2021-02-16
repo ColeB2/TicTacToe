@@ -54,7 +54,7 @@ class Board:
     def clear_board(self):
         """Resets the cell state for each cell in the board to its default value
         of None. """
-        for row in board:
+        for row in self.board:
             for cell in row:
                 cell.state = None
 
