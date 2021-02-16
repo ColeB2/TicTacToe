@@ -13,21 +13,29 @@ class ClassicTicTacToe:
         tic tac toe.
     """
     def __init__(self):
-        self.board = Board(3, 3, 100, 100, 100, 100)
+        x = DIS_X/2 - CLASSIC_BOARD_WIDTH/2
+        y = DIS_Y/2 - CLASSIC_BOARD_HEIGHT/2
+        self.board = Board(3, 3, x, y, CLASSIC_CELL_WIDTH, CLASSIC_CELL_HEIGHT)
 
         self.rows = [self.board.board, self.board.diagonals, self.board.columns]
         self.players = ['X','O']
         self.last_player = ''
         self.winner = False
+        self.game_complete = False
+        self.game_result = None
 
         self.x_score = 0
         self.o_score = 0
+        self.tie_score = 0
 
     def handle_ruleset(self):
         """Method used to handle overall ruleset. Calls all the major rules of
         the game."""
-        self.handle_turn()
-        self.win_state()
+        if self.game_complete == False:
+            self.handle_turn()
+            self.win_state()
+        else:
+            self.board.click_symbol = None
 
 
 
@@ -36,10 +44,14 @@ class ClassicTicTacToe:
 
 
     def handle_scoring(self):
-        if self.board.last_symbol_placed == 'X':
-            self.x_score += 1
-        elif self.board.last_symbol_placed == 'O':
-            self.o_score += 1
+        if self.game_result == 'WIN':
+            if self.board.last_symbol_placed == 'X':
+                self.x_score += 1
+            elif self.board.last_symbol_placed == 'O':
+                self.o_score += 1
+        elif self.game_result == 'TIE':
+            self.tie_score += 1
+        self.board.turn = 0
 
 
 
@@ -49,15 +61,24 @@ class ClassicTicTacToe:
         the result of its findings, True if a row has 3 in a row, false otherwise.
         """
         result = False
+        if result == False and self.board.turn == 9:
+            TIE = False
+            for set in self.rows:
+                for row in set:
+                    result = self.board._check_row(row)
+                    if result == True:
+                        break
+            self.game_result = 'TIE'
         if result == False and self.board.turn >=5:
             for set in self.rows:
                 for row in set:
                     result = self.board._check_row(row)
                     if result == True:
-                        self.handle_scoring()
-                        return result
+                        self.game_result = 'WIN'
+        if self.game_result:
+            self.game_complete = True
+            self.handle_scoring()
 
-        return result
 
 
     def get_event(self, event, *args):
