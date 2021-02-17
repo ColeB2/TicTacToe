@@ -35,12 +35,12 @@ class Cell:
         X_OFFSET --> Offset the X/Cross needs on each corner of the cell to
             fit nicely within it."""
         X_OFFSET = int(self.rect[2] * 0.20)
-        pygame.draw.line(surface, BLACK,
+        pygame.draw.line(surface, CLASSIC_X_COLOR,
                 (self.rect[0] + X_OFFSET,
                  self.rect[1] + X_OFFSET),
                 (self.rect[0] + self.rect[2] - X_OFFSET,
                  self.rect[1] + self.rect[3] - X_OFFSET),  5)
-        pygame.draw.line(surface, BLACK,
+        pygame.draw.line(surface, CLASSIC_X_COLOR,
                 (self.rect[0] + self.rect[2] - X_OFFSET,
                  self.rect[1] + X_OFFSET),
                 (self.rect[0] + X_OFFSET,
@@ -55,7 +55,7 @@ class Cell:
                    rect[1] + rect[3]/2 --> Y value + half height,
         radius --> rect[3]/3 --> Height / 3
         """
-        pygame.draw.circle(surface, RED,
+        pygame.draw.circle(surface, CLASSIC_O_COLOR,
             (int(self.rect[0] + self.rect[2]/2),
             int(self.rect[1] + self.rect[3]/2) ),
             int(self.rect[3]/3), O_THICKNESS)
