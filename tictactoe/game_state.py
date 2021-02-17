@@ -9,8 +9,8 @@ from buttons import Button
 
 
 class GameState:
-    def __init__(self):
-        self.ruleset = "ClassicTicTacToe"
+    def __init__(self, ruleset):
+        self.ruleset = ruleset
         self.get_gameset()
 
         self.run = True
@@ -90,6 +90,6 @@ if __name__ == '__main__':
     pygame.display.set_caption("Tic Tac Toe")
 
 
-    game = GameState()
+    game = GameState(ruleset="ClassicTicTacToe")
     while game.run:
         game.main_loop()
