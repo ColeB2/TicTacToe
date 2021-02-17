@@ -1,5 +1,6 @@
 import pygame
 from pyVariables import *
+from symbols import draw_x, draw_o
 
 
 
@@ -25,40 +26,6 @@ class Cell:
     def __str__(self):
         return f"Cell Rect: {self.rect} Cell State: {self.state} Function: {self.symbol}"
 
-
-    """Drawing Functions"""
-    def draw_x(self, surface):
-        """
-        Draws the X over the cell. Does so by drawing two lines in X shape.
-        1st line --> Top left, to bottom right.
-        2nd line --> Top right, to bottom left.
-        X_OFFSET --> Offset the X/Cross needs on each corner of the cell to
-            fit nicely within it."""
-        X_OFFSET = int(self.rect[2] * 0.20)
-        pygame.draw.line(surface, CLASSIC_X_COLOR,
-                (self.rect[0] + X_OFFSET,
-                 self.rect[1] + X_OFFSET),
-                (self.rect[0] + self.rect[2] - X_OFFSET,
-                 self.rect[1] + self.rect[3] - X_OFFSET),  5)
-        pygame.draw.line(surface, CLASSIC_X_COLOR,
-                (self.rect[0] + self.rect[2] - X_OFFSET,
-                 self.rect[1] + X_OFFSET),
-                (self.rect[0] + X_OFFSET,
-                 self.rect[1] + self.rect[3] - X_OFFSET),5)
-
-
-    def draw_o(self, surface):
-        """
-        Draws the O/Naught over top of the cell. Does so by drawing a circle,
-        given a center tuple, and a radius.
-        center --> rect[0] + rect[2]/2 --> X value + half width,
-                   rect[1] + rect[3]/2 --> Y value + half height,
-        radius --> rect[3]/3 --> Height / 3
-        """
-        pygame.draw.circle(surface, CLASSIC_O_COLOR,
-            (int(self.rect[0] + self.rect[2]/2),
-            int(self.rect[1] + self.rect[3]/2) ),
-            int(self.rect[3]/3), O_THICKNESS)
 
 
     """Event Handler"""
@@ -102,9 +69,9 @@ class Cell:
         pygame.draw.rect(surface, color, self.rect, width=0)
         if self.state:
             if self.state == 'X':
-                self.draw_x(surface)
+                draw_x(surface, self.rect, offset=int(self.rect[2] * 0.20))
             elif self.state == 'O':
-                self.draw_o(surface)
+                draw_o(surface, self.rect)
 
 
 
