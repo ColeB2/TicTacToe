@@ -69,10 +69,11 @@ class Button:
 
     def get_event(self, event, *args):
         """Gets events from pygame event loop to pass on to button."""
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            self._handle_click(*args)
-        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            self._handle_release(*args)
+        if self.function:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self._handle_click(*args)
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                self._handle_release(*args)
 
 
     def _handle_click(self, *args):
