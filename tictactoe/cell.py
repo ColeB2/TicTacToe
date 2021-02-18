@@ -69,7 +69,7 @@ class Cell:
         pygame.draw.rect(surface, color, self.rect, width=0)
         if self.state:
             if self.state == 'X':
-                draw_x(surface, self.rect, offset=int(self.rect[2] * 0.20))
+                draw_x(surface, self.rect, offset=CLASSIC_X_OFFSET)
             elif self.state == 'O':
                 draw_o(surface, self.rect)
 
