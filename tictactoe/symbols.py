@@ -4,7 +4,7 @@ symbols.py - Basic drawn symbols for player pieces. ie, O, and X.
 import pygame
 
 
-def draw_x(surface, rect, color=(30,30,30), offset=None):
+def draw_x(surface, rect, color=(30,30,30), offset=0):
     """
     Draws an X/Cross. Does so by drawing two lines in X shape.
     1st line --> Top left, to bottom right.
