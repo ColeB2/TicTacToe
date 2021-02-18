@@ -1,10 +1,12 @@
 """
 game_state.py - Main game state for a game of Tic Tac Toe
 """
+from buttons import Button
+from classic import ClassicTicTacToe
+from game_hud import HUD
 import pygame
 from pyVariables import *
-from classic import ClassicTicTacToe
-from buttons import Button
+
 
 
 
@@ -16,8 +18,8 @@ class GameState:
         self.run = True
         self.reset = False
 
-        self.create_reset_button()
-
+        self.H = HUD()
+        self.H.create_reset_button(self.reset_function)
 
     """HUD"""
     def scoreboard(self):
@@ -39,12 +41,8 @@ class GameState:
         self.GameSet.board.clear_board()
         self.GameSet.game_complete = False
         self.GameSet.game_result = None
+        self.GameSet.board.turn = 0
         print(f"reset")
-
-    def create_reset_button(self):
-        self.reset_button = Button((RESET_X,RESET_Y,RESET_WIDTH,RESET_HEIGHT),
-            self.reset_function, text="Reset")
-
 
     def handle_win_state(self):
         result = self.GameSet.win_state()
@@ -65,11 +63,11 @@ class GameState:
             if event.type == pygame.QUIT:
                 self.run = False
             self.GameSet.get_event(event)
-            self.reset_button.get_event(event)
+            self.H.get_event(event)
 
     def update(self, surface, *args):
         self.GameSet.update(surface)
-        self.reset_button.update(surface)
+        self.H.update(surface, (self.GameSet.x_score, self.GameSet.o_score, self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score))
         self.handle_ruleset()
 
 
@@ -92,4 +90,5 @@ if __name__ == '__main__':
 
     game = GameState(ruleset="ClassicTicTacToe")
     while game.run:
+        surface.fill(WHITE2)
         game.main_loop()
