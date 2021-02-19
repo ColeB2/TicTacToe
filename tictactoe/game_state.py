@@ -67,7 +67,10 @@ class GameState:
 
     def update(self, surface, *args):
         self.GameSet.update(surface)
-        self.H.update(surface, (self.GameSet.x_score, self.GameSet.o_score, self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score))
+        self.H.update(surface, (self.GameSet.x_score,
+            self.GameSet.o_score,
+            self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score),
+            self.GameSet.board.click_symbol)
         self.handle_ruleset()
 
 
