@@ -21,11 +21,6 @@ class GameState:
         self.H = HUD()
         self.H.create_reset_button(self.reset_function)
 
-    """HUD"""
-    def scoreboard(self):
-        pass
-
-
 
 
     def handle_ruleset(self, surface):
@@ -33,20 +28,18 @@ class GameState:
         if self.GameSet.game_complete == True:
             if self.GameSet.game_result == 'WIN':
                 self.H.draw_win_line(surface, self.GameSet.winning_row)
-            self.handle_reset()
 
-    def handle_reset(self):
-        print(f"Play Again?")
-        print(f"{self.GameSet.x_score} {self.GameSet.o_score} {self.GameSet.tie_score}")
 
     def reset_function(self):
         self.GameSet.board.clear_board()
         self.GameSet.game_complete = False
         self.GameSet.game_result = None
         self.GameSet.board.turn = 0
-        print(f"reset")
+        self.GameSet.players = list(reversed(self.GameSet.players))
+
 
     def handle_win_state(self):
+        """Currently unused"""
         result = self.GameSet.win_state()
         if result == "WIN":
             print(f"{self.GameSet.board.last_symbol_placed} Wins")
