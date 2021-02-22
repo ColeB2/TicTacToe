@@ -28,9 +28,11 @@ class GameState:
 
 
 
-    def handle_ruleset(self):
+    def handle_ruleset(self, surface):
         self.GameSet.handle_ruleset()
         if self.GameSet.game_complete == True:
+            if self.GameSet.game_result == 'WIN':
+                self.H.draw_win_line(surface, self.GameSet.winning_row)
             self.handle_reset()
 
     def handle_reset(self):
@@ -71,12 +73,12 @@ class GameState:
             self.GameSet.o_score,
             self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score),
             self.GameSet.board.click_symbol)
-        self.handle_ruleset()
+        self.handle_ruleset(surface)
 
 
     def main_loop(self):
         self.event_loop()
-        self.handle_ruleset()
+        self.handle_ruleset(surface)
         self.update(surface)
         pygame.display.update()
 

@@ -46,6 +46,41 @@ class HUD:
             draw_x(surface, (300,85,80,80), offset=CLASSIC_X_OFFSET)
 
 
+    def calc_line_endpoints(self, row):
+        offset = int(row[0].rect[2]/3 )
+        if row[0].rect[0] == row[-1].rect[0]:
+            """If row x values are equal, ie vertical line"""
+            x1 = row[0].rect[0] + row[0].rect[2]/2
+            y1 = row[0].rect[1] + row[0].rect[3]/2 - offset
+            x2 = row[-1].rect[0]  + row[0].rect[2]/2
+            y2 = row[-1].rect[1] + row[0].rect[3]/2 + offset
+        elif row[0].rect[1] == row[-1].rect[1]:
+            """If row y values are equal, ie horizontal line"""
+            x1 = row[0].rect[0] + row[0].rect[2]/2 - offset
+            y1 = row[0].rect[1] + row[0].rect[3]/2
+            x2 = row[-1].rect[0] + row[0].rect[2]/2 + offset
+            y2 = row[-1].rect[1] + row[0].rect[3]/2
+        elif row[0].rect[0] < row[-1].rect[0]:
+            """If x1 < x2 ie left-right, top-down diagonal"""
+            x1 = row[0].rect[0] + offset
+            y1 = row[0].rect[1] + offset
+            x2 = row[-1].rect[0] + row[0].rect[2] - offset
+            y2 = row[-1].rect[1] + row[0].rect[3] - offset
+        elif row[0].rect[0] > row[-1].rect[0]:
+            """Other diagonal"""
+            x1 = row[0].rect[0] + row[0].rect[2]/2 + offset/2
+            y1 = row[0].rect[1] + row[0].rect[2]/2 - offset/2
+            x2 = row[-1].rect[0] + row[0].rect[2]/2 - offset/2
+            y2 = row[-1].rect[1] + row[0].rect[2]/2 + offset/2
+        return x1, y1, x2, y2
+
+
+    def draw_win_line(self, surface, row):
+        x1, y1, x2, y2 = self.calc_line_endpoints(row)
+
+        pygame.draw.line(surface, RED,
+            (x1, y1), (x2, y2), 15)
+
 
     def get_event(self, event, *args):
         self.reset_button.get_event(event)

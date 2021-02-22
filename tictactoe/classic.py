@@ -19,9 +19,9 @@ class ClassicTicTacToe:
         self.rows = [self.board.board, self.board.diagonals, self.board.columns]
         self.players = ['X','O']
         self.last_player = ''
-        self.winner = False
         self.game_complete = False
         self.game_result = None
+        self.winning_row = None
 
         self.x_score = 0
         self.o_score = 0
@@ -64,16 +64,17 @@ class ClassicTicTacToe:
             TIE = False
             for set in self.rows:
                 for row in set:
-                    result = self.board._check_row(row)
+                    result, row = self.board._check_row(row)
                     if result == True:
                         break
             self.game_result = 'TIE'
         if result == False and self.board.turn >=5:
             for set in self.rows:
                 for row in set:
-                    result = self.board._check_row(row)
+                    result, row = self.board._check_row(row)
                     if result == True:
                         self.game_result = 'WIN'
+                        self.winning_row = row
         if self.game_result:
             self.game_complete = True
             self.handle_scoring()
