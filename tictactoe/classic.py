@@ -92,7 +92,7 @@ class ClassicTicTacToe:
 if __name__ == '__main__':
     pygame.init()
     surface = pygame.display.set_mode((600,600))
-    surface.fill((WHITE2))
+    surface.fill((BG_COLOR))
     pygame.display.set_caption("Tic Tac Toe Board")
 
     C = ClassicTicTacToe()

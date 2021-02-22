@@ -69,10 +69,10 @@ class GameState:
 
     def update(self, surface, *args):
         self.GameSet.update(surface)
-        self.H.update(surface, (self.GameSet.x_score,
+        self.H.update(surface, score=(self.GameSet.x_score,
             self.GameSet.o_score,
             self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score),
-            self.GameSet.board.click_symbol)
+            turn=self.GameSet.board.click_symbol)
         self.handle_ruleset(surface)
 
 
@@ -89,11 +89,11 @@ class GameState:
 if __name__ == '__main__':
     pygame.init()
     surface = pygame.display.set_mode((DIS_X,DIS_Y))
-    surface.fill((WHITE2))
+    surface.fill((BG_COLOR))
     pygame.display.set_caption("Tic Tac Toe")
 
 
     game = GameState(ruleset="ClassicTicTacToe")
     while game.run:
-        surface.fill(WHITE2)
+        surface.fill(BG_COLOR)
         game.main_loop()

@@ -10,6 +10,7 @@ import pygame
 class HUD:
     def __init__(self):
         self.render_font()
+        self.render_text()
 
 
     def create_reset_button(self, function=None):
@@ -21,14 +22,14 @@ class HUD:
 
 
     def render_score_text(self, score=(0,0,0)):
-        self.x_text = (self.tie_font.render(str(score[0]), True, BLACK))
-        self.o_text = (self.tie_font.render(str(score[1]), True, BLACK))
-        self.games_text = (self.tie_font.render(str(score[2]), True, BLACK))
+        self.x_text = (self.tie_font.render(str(score[0]), True, BLACK, BG_COLOR))
+        self.o_text = (self.tie_font.render(str(score[1]), True, BLACK, BG_COLOR))
+        self.games_text = (self.tie_font.render(str(score[2]), True, BLACK, BG_COLOR))
 
 
     def render_text(self):
-        self.text3 = self.tie_font.render('G', True, BLACK)
-        self.turn_text = self.tie_font.render('Turn: ', True, BLACK)
+        self.text3 = self.tie_font.render('G', True, BLACK, BG_COLOR)
+        self.turn_text = self.tie_font.render('Turn: ', True, BLACK, BG_COLOR)
 
 
     def blit_text(self, surface):
@@ -36,14 +37,14 @@ class HUD:
         surface.blit(self.x_text,(100, 520))
         surface.blit(self.o_text,(300, 520))
         surface.blit(self.games_text,(480, 520))
-        surface.blit(self.turn_text, (150,90))
+        surface.blit(self.turn_text, (150,80))
 
 
     def display_turn(self, surface, turn):
         if turn == 'O':
-            draw_o(surface, (310,85,80,80))
+            draw_o(surface, (330,75,80,80))
         elif turn == 'X':
-            draw_x(surface, (300,85,80,80), offset=CLASSIC_X_OFFSET)
+            draw_x(surface, (330,75,80,80), offset=CLASSIC_X_OFFSET)
 
 
     def calc_line_endpoints(self, row):
@@ -77,7 +78,6 @@ class HUD:
 
     def draw_win_line(self, surface, row):
         x1, y1, x2, y2 = self.calc_line_endpoints(row)
-
         pygame.draw.line(surface, RED,
             (x1, y1), (x2, y2), 15)
 
@@ -90,7 +90,7 @@ class HUD:
         self.reset_button.update(surface)
         draw_x(surface, (0,500,100,100), offset=CLASSIC_X_OFFSET)
         draw_o(surface, (200,500,100,100))
-        self.render_text()
+        # self.render_text()
         self.render_score_text(score)
         self.display_turn(surface, turn)
         self.blit_text(surface)
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 
     pygame.init()
     surface = pygame.display.set_mode((DIS_X,DIS_Y))
-    surface.fill((WHITE2))
+    surface.fill((BG_COLOR))
     pygame.display.set_caption("Tic Tac Toe")
 
     H = HUD()
@@ -119,6 +119,6 @@ if __name__ == "__main__":
 
             H.get_event(event)
 
-        surface.fill((WHITE2))
+        surface.fill((BG_COLOR))
         H.update(surface, (6,4,10), turn=turn)
         pygame.display.update()
