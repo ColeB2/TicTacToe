@@ -9,7 +9,7 @@ class Cell:
     A class to represent a single Cell in a game of tic tac toe.
 
     params:
-        rect: Tutple of integer values -> (top, left, width, height)
+        rect: Tutple of integer values -> (left, top, width, height)
         state: State of Cell -> blank -> ' '. 'X' or 'O'
         """
     def __init__(self, rect, state=None):
@@ -24,7 +24,7 @@ class Cell:
 
 
     def __str__(self):
-        return f"Cell Rect: {self.rect} Cell State: {self.state} Function: {self.symbol}"
+        return f"Cell Rect: {self.rect} Cell State: {self.state}"
 
 
 
