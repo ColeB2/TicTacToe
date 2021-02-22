@@ -70,7 +70,7 @@ class Board:
         row_value = given_row[0].state
         same_value = True
         if row_value == None:
-            return False
+            return False, given_row
         for cell in given_row:
             if row_value != cell.state:
                 same_value = False
@@ -78,7 +78,7 @@ class Board:
             elif row_value == None:
                 same_value = False
                 break
-        return same_value
+        return same_value, given_row
 
 
     def _create_diagonal_rows(self):
@@ -159,7 +159,8 @@ if __name__ == '__main__':
                 for row in set:
                     res = Board._check_row(row)
                     if res == True:
-                        return res
+                        return res, row
+        return res, None
 
 
 
@@ -178,7 +179,7 @@ if __name__ == '__main__':
 
 
 
-        if check_win(B) == True and win == False:
+        if check_win(B)[0] == True and win == False:
             print('WIN')
             win = True
 
