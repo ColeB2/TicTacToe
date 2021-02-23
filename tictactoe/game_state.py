@@ -38,16 +38,6 @@ class GameState:
         self.GameSet.players = list(reversed(self.GameSet.players))
 
 
-    def handle_win_state(self):
-        """Currently unused"""
-        result = self.GameSet.win_state()
-        if result == "WIN":
-            print(f"{self.GameSet.board.last_symbol_placed} Wins")
-            print("Handle Win State")
-        elif result == "TIE":
-            print("TIE")
-
-
     def get_gameset(self):
         if self.ruleset == "ClassicTicTacToe":
             self.GameSet = ClassicTicTacToe()
