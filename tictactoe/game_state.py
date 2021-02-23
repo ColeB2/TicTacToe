@@ -19,20 +19,11 @@ class GameState:
         self.reset = False
 
         self.H = HUD()
-        self.H.create_reset_button(self.reset_function)
+        self.H.create_reset_button(self.reset_button_function)
 
 
 
-    def handle_ruleset(self, surface):
-        """Ruleset Handler. Calls the rule sets main handle method, as well has
-        handles the win state."""
-        self.GameSet.handle_ruleset()
-        if self.GameSet.game_result == 'WIN':
-            self.H.draw_win_line(surface, self.GameSet.winning_row)
-
-
-
-    def reset_function(self):
+    def reset_button_function(self):
         """Gameset reset function. Used to reset the board to start a new game"""
         self.GameSet.board.clear_board()
         self.GameSet.game_complete = False
@@ -61,15 +52,16 @@ class GameState:
         self.H.update(surface, score=(self.GameSet.x_score,
             self.GameSet.o_score,
             self.GameSet.x_score+self.GameSet.o_score+self.GameSet.tie_score),
-            turn=self.GameSet.board.click_symbol)
-        self.handle_ruleset(surface)
+            turn=self.GameSet.board.click_symbol,
+            game_result=self.GameSet.game_result,
+            winning_row = self.GameSet.winning_row,)
 
 
     def main_loop(self):
         """Game main loop. Used inside of a while loop, calls the event loop,
         update method, the ruleset as well as pygame.display.update."""
         self.event_loop()
-        self.handle_ruleset(surface)
+        self.GameSet.handle_ruleset()
         self.update(surface)
 
 

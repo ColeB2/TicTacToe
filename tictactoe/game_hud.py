@@ -9,30 +9,34 @@ import pygame
 
 class HUD:
     def __init__(self):
-        self.render_font()
-        self.render_text()
+        self.hud_font = pygame.font.SysFont(None, 100)
+        self.render_static_text()
+
 
 
     def create_reset_button(self, function=None):
+        """Creates the reset button"""
         self.reset_button = Button((PA_X,PA_Y,PA_WIDTH,PA_HEIGHT),
             function, hover_color=PURPLE2 ,text="Play Again")
 
-    def render_font(self):
-        self.tie_font = pygame.font.SysFont(None, 100)
+
+    """"Font/Text Rendering"""
+    def render_dynamic_text(self, score=(0,0,0)):
+        """Render all dynamic text objects that are subject to change."""
+        self.x_text = (self.hud_font.render(str(self.score[0]), True, BLACK, BG_COLOR))
+        self.o_text = (self.hud_font.render(str(self.score[1]), True, BLACK, BG_COLOR))
+        self.games_text = (self.hud_font.render(str(self.score[2]), True, BLACK, BG_COLOR))
 
 
-    def render_score_text(self, score=(0,0,0)):
-        self.x_text = (self.tie_font.render(str(score[0]), True, BLACK, BG_COLOR))
-        self.o_text = (self.tie_font.render(str(score[1]), True, BLACK, BG_COLOR))
-        self.games_text = (self.tie_font.render(str(score[2]), True, BLACK, BG_COLOR))
+    def render_static_text(self):
+        """Renders all static text that doesn't change."""
+        self.text3 = self.hud_font.render('G', True, BLACK, BG_COLOR)
+        self.turn_text = self.hud_font.render('Turn: ', True, BLACK, BG_COLOR)
 
 
-    def render_text(self):
-        self.text3 = self.tie_font.render('G', True, BLACK, BG_COLOR)
-        self.turn_text = self.tie_font.render('Turn: ', True, BLACK, BG_COLOR)
-
-
+    """Main Drawing/Display Functions"""
     def blit_text(self, surface):
+        """Blits/Displays all text to the screen."""
         surface.blit(self.text3, (420, 520))
         surface.blit(self.x_text,(100, 520))
         surface.blit(self.o_text,(300, 520))
@@ -40,14 +44,49 @@ class HUD:
         surface.blit(self.turn_text, (150,80))
 
 
-    def display_turn(self, surface, turn):
-        if turn == 'O':
+    def draw_turn_symbol(self, surface):
+        """Displays the symbol of which players turn it is, in the turn section
+        """
+        if self.turn == 'O':
             draw_o(surface, (330,75,80,80))
-        elif turn == 'X':
+        elif self.turn == 'X':
             draw_x(surface, (330,75,80,80), offset=CLASSIC_X_OFFSET)
 
 
-    def calc_line_endpoints(self, row):
+    def draw_scoreboard_symbols(self, surface):
+        """Draws the X/O used in the scoreboard to show X/O respective score
+        value"""
+        draw_x(surface, (0,500,100,100), offset=CLASSIC_X_OFFSET)
+        draw_o(surface, (200,500,100,100))
+
+
+    def draw_win_line(self, surface):
+        if self.game_result == 'WIN':
+            x1, y1, x2, y2 = self._calc_line_endpoints(self.winning_row)
+            pygame.draw.line(surface, RED, (x1, y1), (x2, y2), 15)
+
+    """Get Functions"""
+    def get_score(self, score):
+        """Gets the score values needed and calls the render dynamic text which
+        uses the score values."""
+        self.score = score
+        self.render_dynamic_text()
+
+    def get_turn(self, turn):
+        """Gets the value which records which players turn it is."""
+        self.turn = turn
+
+    def get_game_result(self, result):
+        self.game_result = result
+
+    def get_winning_row(self,row):
+        self.winning_row = row
+
+
+    def _calc_line_endpoints(self, row):
+        """Internal method used by the draw_win_line method. Calculates the end
+        point x,y values of the win line so it can be drawn over top the proper
+        row."""
         offset = int(row[0].rect[2]/3 )
         if row[0].rect[0] == row[-1].rect[0]:
             """If row x values are equal, ie vertical line"""
@@ -76,24 +115,29 @@ class HUD:
         return x1, y1, x2, y2
 
 
-    def draw_win_line(self, surface, row):
-        x1, y1, x2, y2 = self.calc_line_endpoints(row)
-        pygame.draw.line(surface, RED,
-            (x1, y1), (x2, y2), 15)
-
 
     def get_event(self, event, *args):
+        """HUDs main get event method"""
         self.reset_button.get_event(event)
 
 
-    def update(self, surface, score, turn, *args):
-        self.reset_button.update(surface)
-        draw_x(surface, (0,500,100,100), offset=CLASSIC_X_OFFSET)
-        draw_o(surface, (200,500,100,100))
-        # self.render_text()
-        self.render_score_text(score)
-        self.display_turn(surface, turn)
+    def _draw(self, surface):
+        """Internal method, handles the the drawing of objects to the screen.
+        Used in the main update method."""
+        self.draw_scoreboard_symbols(surface)
+        self.draw_win_line(surface)
+        self.draw_turn_symbol(surface)
         self.blit_text(surface)
+
+
+    def update(self, surface, *args, **kwargs):
+        """HUDS main update methods"""
+        self.reset_button.update(surface)
+        self.get_turn(kwargs['turn'])
+        self.get_score(kwargs['score'])
+        self.get_game_result(kwargs['game_result'])
+        self.get_winning_row(kwargs['winning_row'])
+        self._draw(surface)
 
 
 
@@ -109,7 +153,6 @@ if __name__ == "__main__":
     def f():
         print('Hello World')
     H.create_reset_button(f)
-    # H.create_scoreboard(surface)
     turn = 'X'
     run = True
     while run:
