@@ -66,8 +66,11 @@ class ClassicTicTacToe:
                 for row in set:
                     result, row = self.board._check_row(row)
                     if result == True:
+                        self.game_result = 'WIN'
+                        self.winning_row= row
                         break
-            self.game_result = 'TIE'
+            if self.game_result != 'WIN':
+                self.game_result = 'TIE'
         if result == False and self.board.turn >=5:
             for set in self.rows:
                 for row in set:
