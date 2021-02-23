@@ -24,13 +24,16 @@ class GameState:
 
 
     def handle_ruleset(self, surface):
+        """Ruleset Handler. Calls the rule sets main handle method, as well has
+        handles the win state."""
         self.GameSet.handle_ruleset()
-        if self.GameSet.game_complete == True:
-            if self.GameSet.game_result == 'WIN':
-                self.H.draw_win_line(surface, self.GameSet.winning_row)
+        if self.GameSet.game_result == 'WIN':
+            self.H.draw_win_line(surface, self.GameSet.winning_row)
+
 
 
     def reset_function(self):
+        """Gameset reset function. Used to reset the board to start a new game"""
         self.GameSet.board.clear_board()
         self.GameSet.game_complete = False
         self.GameSet.game_result = None
@@ -39,11 +42,13 @@ class GameState:
 
 
     def get_gameset(self):
+        """Used to get the ruleset. Set up to add rulesets in the future"""
         if self.ruleset == "ClassicTicTacToe":
             self.GameSet = ClassicTicTacToe()
 
 
     def event_loop(self):
+        """The Main Event Loop for the game state"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
@@ -51,6 +56,7 @@ class GameState:
             self.H.get_event(event)
 
     def update(self, surface, *args):
+        """Main update method for game state"""
         self.GameSet.update(surface)
         self.H.update(surface, score=(self.GameSet.x_score,
             self.GameSet.o_score,
@@ -60,10 +66,11 @@ class GameState:
 
 
     def main_loop(self):
+        """Game main loop. Used inside of a while loop, calls the event loop,
+        update method, the ruleset as well as pygame.display.update."""
         self.event_loop()
         self.handle_ruleset(surface)
         self.update(surface)
-        pygame.display.update()
 
 
 
@@ -80,3 +87,4 @@ if __name__ == '__main__':
     while game.run:
         surface.fill(BG_COLOR)
         game.main_loop()
+        pygame.display.update()

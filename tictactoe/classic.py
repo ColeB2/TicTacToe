@@ -34,15 +34,20 @@ class ClassicTicTacToe:
             self.handle_turn()
             self.win_state()
         else:
+            self.game_result == 'WIN'
             self.board.click_symbol = None
 
 
 
+
     def handle_turn(self):
+        """Handles which players turn it is. Does so via modulo operator and
+        utilizing the boards built in turn number value."""
         self.board.click_symbol = self.players[self.board.turn % 2]
 
 
     def handle_scoring(self):
+        """Handles the rulesets game scoring."""
         if self.game_result == 'WIN':
             if self.board.last_symbol_placed == 'X':
                 self.x_score += 1
@@ -85,10 +90,12 @@ class ClassicTicTacToe:
 
 
     def get_event(self, event, *args):
+        """Rulesets get_event method"""
         self.board.get_event(event, *args)
 
 
     def update(self, surface, *args):
+        """Rulesets update method"""
         self.board.update(surface, *args)
 
 
