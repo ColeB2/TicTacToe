@@ -10,7 +10,9 @@ import pygame
 class HUD:
     def __init__(self):
         self.hud_font = pygame.font.SysFont(None, 100)
+        self.small_hud_font = pygame.font.SysFont(None, 75)
         self.render_static_text()
+        self.game_result = None
 
 
 
@@ -21,11 +23,16 @@ class HUD:
 
 
     """"Font/Text Rendering"""
-    def render_dynamic_text(self, score=(0,0,0)):
+    def render_scoreboard_text(self, score=(0,0,0)):
         """Render all dynamic text objects that are subject to change."""
         self.x_text = (self.hud_font.render(str(self.score[0]), True, BLACK, BG_COLOR))
         self.o_text = (self.hud_font.render(str(self.score[1]), True, BLACK, BG_COLOR))
         self.games_text = (self.hud_font.render(str(self.score[2]), True, BLACK, BG_COLOR))
+
+
+    def render_winning_text(self):
+        winner = self.winning_row[0].state
+        self.winning_text = (self.small_hud_font.render(f"{winner} Wins!", True, BLACK))
 
 
     def render_static_text(self):
@@ -42,6 +49,8 @@ class HUD:
         surface.blit(self.o_text,(300, 520))
         surface.blit(self.games_text,(480, 520))
         surface.blit(self.turn_text, (150,80))
+        if self.game_result == 'WIN':
+            surface.blit(self.winning_text, (PA_X+PA_WIDTH,PA_Y))
 
 
     def draw_turn_symbol(self, surface):
@@ -65,12 +74,15 @@ class HUD:
             x1, y1, x2, y2 = self._calc_line_endpoints(self.winning_row)
             pygame.draw.line(surface, RED, (x1, y1), (x2, y2), 15)
 
+
+
+
     """Get Functions"""
     def get_score(self, score):
         """Gets the score values needed and calls the render dynamic text which
         uses the score values."""
         self.score = score
-        self.render_dynamic_text()
+        self.render_scoreboard_text()
 
     def get_turn(self, turn):
         """Gets the value which records which players turn it is."""
@@ -81,6 +93,7 @@ class HUD:
 
     def get_winning_row(self,row):
         self.winning_row = row
+        self.render_winning_text()
 
 
     def _calc_line_endpoints(self, row):
@@ -118,7 +131,8 @@ class HUD:
 
     def get_event(self, event, *args):
         """HUDs main get event method"""
-        self.reset_button.get_event(event)
+        if self.game_result:
+            self.reset_button.get_event(event)
 
 
     def _draw(self, surface):
@@ -132,11 +146,14 @@ class HUD:
 
     def update(self, surface, *args, **kwargs):
         """HUDS main update methods"""
-        self.reset_button.update(surface)
+
         self.get_turn(kwargs['turn'])
         self.get_score(kwargs['score'])
         self.get_game_result(kwargs['game_result'])
-        self.get_winning_row(kwargs['winning_row'])
+        if self.game_result == 'WIN':
+            self.get_winning_row(kwargs['winning_row'])
+        if self.game_result:
+            self.reset_button.update(surface)
         self._draw(surface)
 
 
