@@ -57,7 +57,7 @@ class GameState:
             winning_row = self.GameSet.winning_row,)
 
 
-    def main_loop(self):
+    def main_loop(self, surface):
         """Game main loop. Used inside of a while loop, calls the event loop,
         update method, the ruleset as well as pygame.display.update."""
         self.event_loop()
@@ -78,5 +78,5 @@ if __name__ == '__main__':
     game = GameState(ruleset="ClassicTicTacToe")
     while game.run:
         surface.fill(BG_COLOR)
-        game.main_loop()
+        game.main_loop(surface)
         pygame.display.update()
