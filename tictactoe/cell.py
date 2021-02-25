@@ -44,7 +44,7 @@ class Cell:
 
     def _handle_release(self, *args):
         if self.clicked and self.run_on_release:
-            self.change_state(*args)
+            pass
         self.clicked = False
 
 
